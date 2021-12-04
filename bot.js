@@ -1,15 +1,13 @@
 require('dotenv').config()
 const start = process.hrtime()
 const { BOT_TOKEN, BOT_PREFIX, SERVER_IP, RCON_PORT, RCON_PASS, ADMIN_IDS } = process.env
-const { Client, MessageEmbed, Collection } = require('discord.js')
+const { Client, MessageEmbed, Collection, Intents } = require('discord.js')
 const { Rcon } = require('rcon-client')
 const { readdir } = require('fs-extra')
 const admins = ADMIN_IDS.split(',')
 
 const bot = new Client({
-  intents: [
-    "GUILD_MESSAGES"
-  ]
+   disableEveryone: true
 })
 
 bot.players = 0
