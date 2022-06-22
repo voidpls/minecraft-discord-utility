@@ -9,7 +9,7 @@ module.exports.run = async (bot, msg, args) => {
       const time = Date.now()
       let res = await Promise.all([
         axios.get(
-          `https://api.ipgeolocation.io/ipgeo?apiKey=${IP_API_KEY}&ip=${SERVER_IP}`
+          `http://ip-api.com/json/${SERVER_IP}`
         ),
         bot.rcon.send('minecraft:list'),
         bot.rcon.send('bukkit:version'),
@@ -20,7 +20,7 @@ module.exports.run = async (bot, msg, args) => {
       ])
       res = res.map(r => (typeof r === 'string' ? r.replace(/§./gm, '') : r))
       const geoInfo = res[0].data
-        ? `${res[0].data.state_prov}, ${res[0].data.country_code2}`
+        ? `${res[0].data.regionName}, ${res[0].data.countryCode}`
         : 'N/A'
       const playerNum = `${res[1].match(/are (\d+) of/m)[1]}/${
         res[1].match(/max of (\d+) players/m)[1]
@@ -48,7 +48,7 @@ module.exports.run = async (bot, msg, args) => {
         )
         .setFooter(`IP: ${HOSTNAME}`)
       return msg.channel.send(embed)
-    }, 500)
+    }, 1000)
   } catch (e) {
     bot.cmdFailed(msg)
     console.log(e)
